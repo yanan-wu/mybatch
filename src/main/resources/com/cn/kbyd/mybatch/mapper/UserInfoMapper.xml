@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.kbyd.mybatch.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cn.kbyd.mybatch.entity.UserInfo">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="login_id" jdbcType="CHAR" property="loginId" />
+    <result column="pass_wd" jdbcType="CHAR" property="passWd" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, login_id, pass_wd
+  </sql>
+  <insert id="insert" parameterType="com.cn.kbyd.mybatch.entity.UserInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_info (login_id, pass_wd)
+    values (#{loginId,jdbcType=CHAR}, #{passWd,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.kbyd.mybatch.entity.UserInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="loginId != null">
+        login_id,
+      </if>
+      <if test="passWd != null">
+        pass_wd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="loginId != null">
+        #{loginId,jdbcType=CHAR},
+      </if>
+      <if test="passWd != null">
+        #{passWd,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+  </select>
+</mapper>
