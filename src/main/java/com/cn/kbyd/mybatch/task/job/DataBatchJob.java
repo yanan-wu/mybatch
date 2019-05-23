@@ -110,7 +110,6 @@ public class DataBatchJob {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return itemReader;
     }
 
